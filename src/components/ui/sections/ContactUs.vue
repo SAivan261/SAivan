@@ -16,31 +16,51 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import Button from '@/components/ui/Button.vue'
-
+import { onMounted } from 'vue';
+import gsap from 'gsap';
+import Button from '@/components/ui/Button.vue';
 
 onMounted(() => {
-  const contactSection = document.querySelector('.contactus');
-  const imgElement = document.querySelector('.contactus__img');
-  const iconElement = imgElement.querySelector('.icon');
+	const contactSection = document.querySelector('.contactus');
+	const contentElements = document.querySelectorAll(
+		'.contactus__content > *'
+	);
+	const imgElement = document.querySelector('.contactus__img');
+	const iconElement = imgElement.querySelector('.icon');
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        imgElement.classList.add('animate');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.8,
-  });
+	const observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					gsap.fromTo(
+						contentElements,
+						{
+							opacity: 0,
+							x: -50,
+						},
+						{
+							opacity: 1,
+							x: 0,
+							duration: 1,
+							stagger: 0.3,
+							ease: 'power2.out',
+						}
+					);
+					imgElement.classList.add('animate');
+					observer.unobserve(entry.target);
+				}
+			});
+		},
+		{
+			threshold: 0.8,
+		}
+	);
 
-  observer.observe(contactSection);
+	observer.observe(contactSection);
 
-  imgElement.addEventListener('animationend', () => {
-    iconElement.style.opacity = '1';
-  });
+	imgElement.addEventListener('animationend', () => {
+		iconElement.style.opacity = '1';
+	});
 });
 </script>
 
@@ -59,6 +79,11 @@ onMounted(() => {
 		flex-direction: column;
 		align-items: flex-start;
 		width: 50%;
+
+    & > * {
+			opacity: 0;
+			transform: translateX(-50px);
+		}
 
 		&-title{
 			font-size: 24px;
@@ -93,8 +118,6 @@ onMounted(() => {
                    0 0 0 #ffffff,
                     10px 10px 10px #cccccc inset,
                     -10px -10px 10px #ffffff inset;
-
-      /* animation-fill-mode: forwards; */
 			&.animate {
 				animation: message 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s alternate;
 				animation-fill-mode: forwards;

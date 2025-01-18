@@ -20,14 +20,14 @@
 						</n-form-item>
 
 						<n-form-item
-							label="Почта"
+							label="Телефон"
 							:validation-status="inputNumberValidationStat"
 						>
 							<n-input
 								size="large"
 								v-model:value="inputValue"
 								clearable
-								placeholder="Ваша почта"
+								placeholder="Ваш телефон"
 							/>
 						</n-form-item>
 					</n-space>
@@ -87,17 +87,94 @@
 </template>
 
 <script setup>
-import Header from '@/components/Header.vue'
 import archive_ico from '@/components/icons/archive_ico.vue'
 import email_ico from '@/components/icons/email_ico.vue'
 import telegram_ico from '@/components/icons/telegram_ico.vue'
 import Button from '@/components/ui/Button.vue'
+import { onMounted } from 'vue';
+import gsap from 'gsap';
+
+onMounted(() => {
+  const contact = document.querySelector('.contact');
+  const title = document.querySelector('.contact-title');
+  const infoTitle = document.querySelector('.contact__info-title');
+  const form = document.querySelector('.contact__form'); // добавляем ссылку на форму
+  const infoContents = document.querySelectorAll('.contact__info-content'); // добавляем ссылки на блоки с информацией
+  
+  if (contact) {
+    gsap.to(contact, {
+      opacity: 1,
+      duration: 0.5,
+      ease: 'power2.out',
+      onComplete: () => {
+        if (title) {
+          gsap.fromTo(
+            title,
+            { opacity: 0, x: -100 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 1,
+              ease: 'power2.out',
+            }
+          );
+        }
+
+        if (infoTitle) {
+          gsap.fromTo(
+            infoTitle,
+            { opacity: 0, x: -100 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 1,
+              ease: 'power2.out',
+              delay: 0.5,
+            }
+          );
+        }
+
+        if (form) {
+          // Анимация формы с задержкой после анимации заголовков
+          gsap.fromTo(
+            form,
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 1,
+              ease: 'power2.out',
+              delay: 0.5, // Задержка для начала анимации формы
+            }
+          );
+        }
+
+        if (infoContents.length) {
+          // Анимация блоков с контактной информацией
+          infoContents.forEach((content, index) => {
+            gsap.fromTo(
+              content,
+              { opacity: 0, x: -100 }, // начальная позиция слева
+              {
+                opacity: 1,
+                x: 0, // завершенная позиция
+                duration: 1,
+                ease: 'power2.out',
+                delay: 1 + index * 0.3, // задержка между блоками
+              }
+            );
+          });
+        }
+      }
+    });
+  }
+});
 </script>
 
 <style lang="scss" scoped>
 .contact {
-	margin-top: 80px;
 	padding: 0 12px;
+	margin: 12px 0;
+	opacity: 0;
 
 	&__container {
 		display: flex;
@@ -112,6 +189,11 @@ import Button from '@/components/ui/Button.vue'
 		font-size: 52px;
 		line-height: 62px;
 		color: $color-primary;
+		opacity: 0;
+	}
+
+	&__form{
+		opacity: 0;
 	}
 
 	&__form-container {
@@ -123,8 +205,8 @@ import Button from '@/components/ui/Button.vue'
 
 	&__info-container {
 		position: relative;
-		background-image: url('@/assets/contact_bg.jpg');
-		background-position: center;
+		background-image: url('@/assets/bg.webp');
+		background-position: bottom left;
 		background-size: cover;
 		width: 50%;
 		border-radius: 20px 10px 10px 20px;
@@ -157,6 +239,7 @@ import Button from '@/components/ui/Button.vue'
 		color: #fff;
 		font-size: 38px;
 		line-height: 50px;
+		opacity: 0;
 	}
 
 	&__info-content {
@@ -170,6 +253,7 @@ import Button from '@/components/ui/Button.vue'
 		backdrop-filter: blur(6.3px);
 		-webkit-backdrop-filter: blur(6.3px);
 		padding: 24px;
+		opacity: 0;
 	}
 
 	&__info-text {

@@ -19,6 +19,8 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
+import gsap from 'gsap';
 
 import Promo from '@/components/ui/sections/Promo.vue';
 import About from '@/components/ui/sections/About.vue';
@@ -26,6 +28,17 @@ import Work from '@/components/ui/sections/Work.vue';
 import Steps from '@/components/ui/sections/Steps.vue';
 import ContactUs from '@/components/ui/sections/ContactUs.vue';
 import SectionContainer from '@/components/ui/containers/SectionContainer.vue';
+
+onMounted(() => {
+	const pageContainer = document.querySelector('.page__container');
+	if (pageContainer) {
+		gsap.to(pageContainer, {
+			opacity: 1,
+			duration: 1,
+			ease: 'power2.out',
+		});
+	}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -37,6 +50,7 @@ import SectionContainer from '@/components/ui/containers/SectionContainer.vue';
 		background-color: $color-white;
 		box-shadow: $shadow;
 		border-radius: 10px;
+		opacity: 0;
 	}
 }
 </style>

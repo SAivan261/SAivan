@@ -1,9 +1,10 @@
 <template>
 	<header class="header">
 		<div class="header__container">
+			<RouterLink to="/"> 
 			<div class="header__container-ico"></div>
+		</RouterLink>
 			<nav class="header__container-menu">
-
 				<RouterLink to="/contact" class="header__container-menu_item"
 					>Контакты</RouterLink
 				>
@@ -13,7 +14,6 @@
 </template>
 
 <script setup>
-import Button from './ui/Button.vue'
 </script>
 
 <style lang="scss" scoped>

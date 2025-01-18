@@ -71,7 +71,8 @@
 import Button from '../Button.vue';
 import arrow_ico from '@/components/icons/arrow_ico.vue'
 import calculator_ico from '@/components/icons/calculator_ico.vue'
-import { ref } from 'vue'
+import gsap from 'gsap';
+import { ref, onMounted } from 'vue'
 
 const value = ref(null)
 const options = ref([
@@ -88,6 +89,73 @@ const options = ref([
 		value: 'song2',
 	},
 ])
+
+onMounted(() => {
+	const title = document.querySelector('.promo__content-title');
+	const arrow = document.querySelector('.arrow-ico');
+	const text = document.querySelector('.promo__content-text');
+	const textContainer = document.querySelector('.promo__content-calc_wrapper');
+	const advantages = document.querySelectorAll('.promo__content-advantage');
+
+	if (title && arrow && text && textContainer && advantages.length > 0) {
+		gsap.fromTo(
+			title,
+			{ opacity: 0, x: -100 },
+			{
+				opacity: 1,
+				x: 0,
+				duration: 1.5,
+				ease: 'power2.out',
+			}
+		);
+		gsap.fromTo(
+			text,
+			{ opacity: 0, x: -100 },
+			{
+				opacity: 1,
+				x: 0,
+				duration: 1,
+				ease: 'power2.out',
+				delay: 0.5,
+			}
+		);
+		gsap.fromTo(
+			textContainer,
+			{ opacity: 0, y: 100 },
+			{
+				opacity: 1,
+				y: 0,
+				duration: 1.2,
+				ease: 'power2.out',
+				delay: 1,
+			}
+		);
+		gsap.fromTo(
+			arrow,
+			{ opacity: 0, scale: 0.8 },
+			{
+				opacity: 1,
+				scale: 1,
+				duration: 0.8,
+				ease: 'back.out(1.7)',
+				delay: 1.5,
+			}
+		);
+		advantages.forEach((advantage, index) => {
+			gsap.fromTo(
+				advantage,
+				{  y: -50, opacity: 0},
+				{
+					opacity: 1,
+					y: 0,
+					duration: 0.5,
+					ease: 'none',
+					delay: 0.5 + index * 0.5,
+				}
+			);
+		});
+	}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -98,15 +166,28 @@ const options = ref([
 
 		&-wrapper {
 			width: 100%;
-			height: 100%;
-			min-height: 85vh;
+			height: 85vh;
+			max-height: 650px;
 			background-image: url('@/assets/bg.webp');
 			background-size: cover;
 			background-position: top;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
+			gap: 24px;
 			border-radius: 10px;
+		}
+
+		&-title{
+			opacity: 0;
+			transform: translateX(-100px);
+			transition: all 0.3s ease-out;
+		}
+
+		&-text{
+			opacity: 0;
+			transform: translateX(-100px);
+			transition: all 0.3s ease-out;
 		}
 
 		&-title_container {
@@ -210,6 +291,11 @@ const options = ref([
 			line-height: 30px;
 		}
 
+		&-advantage {
+			opacity: 0;
+			transform: translateY(-50px);
+		}
+
 		&-advantage_container {
 			margin-left: auto;
 			background-color: $color-white;
@@ -275,6 +361,8 @@ const options = ref([
 }
 
 .arrow-ico {
-	transform: translateY(8px);
+	transform: translateY(8px) scale(0.8);
+	opacity: 0;
+	transition: all 0.3s ease-out;
 }
 </style>

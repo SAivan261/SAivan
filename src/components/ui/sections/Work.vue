@@ -26,58 +26,63 @@
 			alt=""
 			class="work-content__img-circle"
 		/>
-		<div class='work__additional'>
-			<button class="work__additional-button">
-				<img src="@/assets/plus.svg" alt="">
+		<div
+			v-for="(block, index) in blocks"
+			:key="index"
+			class="work__additional"
+		>
+			<button
+				@click="toggleShow(index)"
+				class="work__additional-button"
+				:class="{ active: block.visible }"
+			>
+				<img src="@/assets/plus.svg" alt="" />
 			</button>
-			<div class="work__additional-content">
-				<p class="work__additional-content_text">
-				Всем привет я текст. Как дела? блок 1
-				</p>
-			</div>
-		</div>
-		<div class='work__additional'>
-			<button class="work__additional-button">
-				<img src="@/assets/plus.svg" alt="">
-			</button>
-			<div class="work__additional-content">
-				<p class="work__additional-content_text">
-				Всем привет я текст. Как дела? блок 2
-				</p>
-			</div>
-		</div>
-		<div class='work__additional'>
-			<button class="work__additional-button">
-				<img src="@/assets/plus.svg" alt="">
-			</button>
-			<div class="work__additional-content">
-				<p class="work__additional-content_text">
-				Всем привет я текст. Как дела? блок 3
-				</p>
-			</div>
+			<transition
+				:name="index === 1 ? 'contentReverse' : 'content'"
+			>
+				<div
+					v-if="block.visible"
+					class="work__additional-content"
+				>
+					<p class="work__additional-content_text">
+						{{ block.text }}
+					</p>
+				</div>
+			</transition>
 		</div>
 	</div>
 </template>
 
 <script setup>
 import SectionTitle from '../title/SectionTitle.vue';
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
-// Регистрация ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
+const blocks = reactive([
+	{
+		visible: false,
+		text: 'Всем привет я текст. Как дела? блок 1',
+	},
+	{
+		visible: false,
+		text: 'Всем привет я текст. Как дела? блок 2',
+	},
+	{
+		visible: false,
+		text: 'Всем привет я текст. Как дела? блок 3',
+	},
+]);
 
-onMounted(() => {
-
-  const animations = [
+const animations = [
     {
       selector: '.work-content__img-code',
       from: { right: '10%', top: '10%' },
       to: { right: '18%', top: '16%' },
       start: 'top 70%',
       end: 'center 60%',
-      duration: 2,
+      duration: 4,
     },
     {
       selector: '.work-content__img-mobile',
@@ -85,7 +90,7 @@ onMounted(() => {
       to: { bottom: '8%', left: '20%' },
       start: 'top center',
       end: 'center 60%',
-      duration: 2,
+      duration: 4,
     },
     {
       selector: '.work-content__img-text',
@@ -93,10 +98,29 @@ onMounted(() => {
       to: { left: '15%', top: '14%' }, 
       start: 'top 70%',
       end: 'center 60%',
-      duration: 2,
+      duration: 4,
     },
   ];
 
+const toggleShow = (index) => {
+	blocks[index].visible = !blocks[index].visible;
+};
+
+const animateVisibility = () => {
+	gsap.to(blocks, {
+		visible: true,
+		stagger: 0.3,
+		duration: 0,
+		onUpdate: () => {
+			blocks.forEach((block, index) => {
+				block.visible = blocks[index].visible;
+			});
+		},
+	});
+};
+
+gsap.registerPlugin(ScrollTrigger);
+onMounted(() => {
   animations.forEach(({ selector, from, to, start, end, duration }) => {
     gsap.to(selector, {
       ...to,
@@ -110,6 +134,22 @@ onMounted(() => {
       },
     });
   });
+
+	const observer = new IntersectionObserver(
+		(entries) => {
+			const [entry] = entries;
+			if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
+				animateVisibility();
+				observer.disconnect();
+			}
+		},
+		{ threshold: [0.8] }
+	);
+
+	const workContent = document.querySelector('.work-content');
+	if (workContent) {
+		observer.observe(workContent);
+	}
 });
 </script>
 
@@ -206,13 +246,22 @@ onMounted(() => {
 		cursor: pointer;
 		transition: all 0.3s;
 
+		&.active{
+			transform: rotate(45deg);
+		}
+
 		& img{
 			width: 40px;
 			height: 40px;
 		}
 
 		&:hover{
-			transform: translateY(-2px) rotate(180deg);
+			transform: rotate(180deg);
+		}
+
+		&:focus-visible{
+			border: none;
+			outline: none;
 		}
 	}
 
@@ -232,5 +281,27 @@ onMounted(() => {
 		}
 	}
 }
+}
+
+.content-enter-active,
+.content-leave-active {
+  transition: all 0.5s ease;
+}
+
+.content-enter-from,
+.content-leave-to {
+  opacity: 0;
+	transform: translateX(20px);
+}
+
+.contentReverse-enter-active,
+.contentReverse-leave-active {
+  transition: all 0.5s ease;
+}
+
+.contentReverse-enter-from,
+.contentReverse-leave-to {
+  opacity: 0;
+	transform: translateX(-20px);
 }
 </style>
