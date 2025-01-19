@@ -5,11 +5,11 @@
 				<div class="promo__content-title_container-before"></div>
 				<h1 class="promo__content-title">
 					<span class="promo__content-title_additional">
-						Цифровые решения
+						Цифровые&nbsp;решения
 					</span>
 					<br />
 					для вашего бизнеса
-					<arrow_ico class="arrow-ico" />
+					<arrow_ico class="arrow-ico" :size='IconArrow'/>
 				</h1>
 				<p class="promo__content-text">
 					Мы помогаем компаниям различного уровня создавать свои цифровые
@@ -18,7 +18,9 @@
 				<div class="promo__content-title_container-after"></div>
 			</div>
 			<div class="promo__content-text_container">
-				<div class="promo__content-calc_wrapper">
+				<div 
+				class='promo__content-calc_wrapper'
+				:class="isTablet ? 'mobile' : ''">
 					<div class="promo__content-calc_header">
 						<p class="promo__content-calc_title">Рассчитайте стоимость</p>
 						<div class="promo__content-calc_num">
@@ -44,7 +46,9 @@
 					</div>
 					<Button>Оставить заявку</Button>
 				</div>
-				<div class="promo__content-advantage_container">
+				<div 
+				class="promo__content-advantage_container"
+				:class="isTablet ? 'mobile' : ''">
 					<div class="promo__content-advantage_container-before"></div>
 					<div class="promo__content-advantage">
 						<h3 class="promo__content-advantage_title">Бюджет</h3>
@@ -72,9 +76,29 @@ import Button from '../Button.vue';
 import arrow_ico from '@/components/icons/arrow_ico.vue'
 import calculator_ico from '@/components/icons/calculator_ico.vue'
 import gsap from 'gsap';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const value = ref(null)
+
+const IconArrow = computed(() => {
+  if (window.innerWidth < 450) {
+    return 30;
+  } else if (window.innerWidth < 600) {
+    return 45;
+  } else {
+    return 60;
+  }
+});
+
+
+const isTablet = computed(() => {
+	if(window.innerWidth < 815){
+		return true
+	} else{
+		return false
+	}
+})
+
 const options = ref([
 	{
 		label: "Everybody's Got Something to Hide Except Me and My Monkey",
@@ -193,7 +217,7 @@ onMounted(() => {
 		&-title_container {
 			background-color: $color-white;
 			width: fit-content;
-			width: 53%;
+			max-width: 665px;
 			border-radius: 10px 0 10px 0;
 			padding: 0 24px 24px 24px;
 			position: relative;
@@ -231,6 +255,7 @@ onMounted(() => {
 			font-size: 52px;
 			line-height: 78px;
 			font-weight: bold;
+			white-space: nowrap;
 		}
 
 		&-title_additional {
@@ -239,6 +264,7 @@ onMounted(() => {
 			line-height: 42px;
 			padding: 0px 32px 8px;
 			border-radius: 10px;
+			white-space: nowrap;
 		}
 
 		&-text_container {
@@ -256,6 +282,10 @@ onMounted(() => {
 			border-radius: 10px;
 			background-color: $color-white;
 			width: 100%;
+
+			&.mobile{
+				min-width: 500px;
+			}
 		}
 
 		&-calc_header {
@@ -291,11 +321,6 @@ onMounted(() => {
 			line-height: 30px;
 		}
 
-		&-advantage {
-			opacity: 0;
-			transform: translateY(-50px);
-		}
-
 		&-advantage_container {
 			margin-left: auto;
 			background-color: $color-white;
@@ -304,6 +329,41 @@ onMounted(() => {
 			display: flex;
 			gap: 6px;
 			position: relative;
+
+			
+			&.mobile{
+				margin: 0;
+				width: 100%;
+				border-radius: 0;
+
+				& .promo__content-advantage_container-before {
+				transform: rotate(270deg);
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				top: -20px;
+				left: 0px;
+				background-image: radial-gradient(
+					ellipse 40px 40px at 20px 20px,
+					transparent 50%,
+					#fff 51%
+				);
+				overflow: hidden;
+				}
+
+				& .promo__content-advantage{
+					width: auto;
+					padding: 12px;
+
+					&_title{
+						font-size: 18px;
+					}
+
+					&_text{
+						font-size: 16px;
+					}
+				}
+			}
 
 			&-before {
 				transform: rotate(180deg);
@@ -343,6 +403,8 @@ onMounted(() => {
 			border-radius: 10px;
 			color: $color-white;
 			width: 200px;
+			opacity: 0;
+			transform: translateY(-50px);
 
 			&:nth-of-type(2) {
 				background-image: url('@/assets/variable_bg-blue.jpg');
@@ -364,5 +426,140 @@ onMounted(() => {
 	transform: translateY(8px) scale(0.8);
 	opacity: 0;
 	transition: all 0.3s ease-out;
+}
+
+@media screen and (max-width: 1280px){
+	.promo{
+		&__content{
+			&-title_container{
+				max-width: 605px;
+			}
+
+			&-title{
+				font-size: 48px;
+			}
+
+			&-text{
+				font-size: 18px;
+				line-height: 24px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1024px){
+	.promo{
+		&__content{
+			&-wrapper{
+				height: auto;
+			}
+
+			&-calc_wrapper{
+				margin: 0 24px 24px 24px;
+			}
+
+			&-calc_title{
+				font-size: 18px;
+			}
+
+			&-advantage_title{
+				font-size: 18px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 815px){
+	.promo__content-text_container {
+		flex-wrap: wrap;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.promo{
+		&__content{
+			&-title_container{
+				max-width: 100%;
+				border-radius: 0;
+
+				&-after {
+					top: initial;
+					bottom: -20px;
+					right: 0px;
+					transform: rotate(90deg);
+				}
+			}
+
+			&-calc_wrapper {
+
+				&.mobile{
+					min-width: auto;
+				}
+			}
+
+			&-advantage{
+				min-width: 200px;
+			}
+
+			&-advantage_container {
+				gap: 12px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 500px){
+	.promo{
+		&__content{
+			&-advantage_container{
+				flex-wrap: wrap;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 600px) {
+  .promo__content-title {
+    font-size: clamp(28px, 7vw, 48px);
+		line-height: 2;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .promo__content-title {
+    font-size: clamp(24px, 6vw, 48px);
+		line-height: 2;
+  }
+
+	.promo__content-title_container{
+		padding: 0 12px 12px 12px;
+	}
+
+	.promo__content-text[data-v-5bf7021c] {
+		font-size: 16px;
+		line-height: 20px;
+	}
+
+	.promo__content-calc_title {
+		font-size: 16px;
+	}
+
+	.promo__content{
+		&-advantage_container {
+			&.mobile{
+
+				& .promo__content-advantage{
+
+					&_title{
+						font-size: 16px;
+					}
+
+					&_text{
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
 }
 </style>

@@ -4,7 +4,7 @@
 			<div class="contact__form-container">
 				<h1 class="contact-title">Обратная связь</h1>
 				<n-form class="contact__form">
-					<n-space>
+					<n-space class='contact__form-header'>
 						<n-form-item
 							label="Имя"
 							:validation-status="inputValidationStatus"
@@ -70,15 +70,15 @@
 			<div class="contact__info-container">
 				<h2 class="contact__info-title">Контактная информация</h2>
 				<div class="contact__info-content">
-					<telegram_ico size="48" />
+					<telegram_ico :size="iconSize" />
 					<p class="contact__info-text">8(999)999-99-99</p>
 				</div>
 				<div class="contact__info-content">
-					<telegram_ico size="48" />
+					<telegram_ico :size="iconSize" />
 					<p class="contact__info-text">8(999)999-99-99</p>
 				</div>
 				<div class="contact__info-content">
-					<email_ico size="48" />
+					<email_ico :size="iconSize" />
 					<p class="contact__info-text">support@help.ru</p>
 				</div>
 			</div>
@@ -91,15 +91,23 @@ import archive_ico from '@/components/icons/archive_ico.vue'
 import email_ico from '@/components/icons/email_ico.vue'
 import telegram_ico from '@/components/icons/telegram_ico.vue'
 import Button from '@/components/ui/Button.vue'
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import gsap from 'gsap';
+
+const iconSize = computed(() => {
+  if (window.innerWidth < 1024) {
+    return 30;
+  } else {
+    return 48;
+  }
+});
 
 onMounted(() => {
   const contact = document.querySelector('.contact');
   const title = document.querySelector('.contact-title');
   const infoTitle = document.querySelector('.contact__info-title');
-  const form = document.querySelector('.contact__form'); // добавляем ссылку на форму
-  const infoContents = document.querySelectorAll('.contact__info-content'); // добавляем ссылки на блоки с информацией
+  const form = document.querySelector('.contact__form');
+  const infoContents = document.querySelectorAll('.contact__info-content');
   
   if (contact) {
     gsap.to(contact, {
@@ -135,7 +143,6 @@ onMounted(() => {
         }
 
         if (form) {
-          // Анимация формы с задержкой после анимации заголовков
           gsap.fromTo(
             form,
             { opacity: 0 },
@@ -143,23 +150,22 @@ onMounted(() => {
               opacity: 1,
               duration: 1,
               ease: 'power2.out',
-              delay: 0.5, // Задержка для начала анимации формы
+              delay: 0.5,
             }
           );
         }
 
         if (infoContents.length) {
-          // Анимация блоков с контактной информацией
           infoContents.forEach((content, index) => {
             gsap.fromTo(
               content,
-              { opacity: 0, x: -100 }, // начальная позиция слева
+              { opacity: 0, x: -100 },
               {
                 opacity: 1,
-                x: 0, // завершенная позиция
+                x: 0,
                 duration: 1,
                 ease: 'power2.out',
-                delay: 1 + index * 0.3, // задержка между блоками
+                delay: 1 + index * 0.3,
               }
             );
           });
@@ -179,7 +185,8 @@ onMounted(() => {
 	&__container {
 		display: flex;
 		justify-content: space-between;
-		gap: 24px;
+		flex-wrap: wrap;
+		gap: 48px;
 		background-color: $color-white;
 		box-shadow: $shadow;
 		border-radius: 10px;
@@ -194,6 +201,7 @@ onMounted(() => {
 
 	&__form{
 		opacity: 0;
+		margin: 0 auto;
 	}
 
 	&__form-container {
@@ -201,6 +209,7 @@ onMounted(() => {
 		flex-direction: column;
 		gap: 12px;
 		padding: 0 0 12px 12px;
+		min-width: 550px;
 	}
 
 	&__info-container {
@@ -208,7 +217,8 @@ onMounted(() => {
 		background-image: url('@/assets/bg.webp');
 		background-position: bottom left;
 		background-size: cover;
-		width: 50%;
+		flex: 1;
+		min-width: 290px;
 		border-radius: 20px 10px 10px 20px;
 		padding: 12px;
 		box-sizing: border-box;
@@ -258,6 +268,56 @@ onMounted(() => {
 
 	&__info-text {
 		font-size: 24px;
+	}
+}
+
+@media screen and (max-width: 1024px){
+	.contact-title{
+		font-size: 42px;
+		line-height: 58px;
+	}
+
+	.contact__info-title{
+		font-size: 28px;
+		line-height: 32px;
+	}
+
+	.contact__info-text{
+		font-size: 20px;
+	}
+}
+
+@media screen and (max-width: 920px){
+	.contact__container{
+		flex-direction: column;
+		gap: 24px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.contact__form-container{
+		min-width: auto;
+		padding: 0 12px 12px 12px;
+	}
+
+	.contact-title{
+		font-size: 36px;
+		line-height: 42px;
+	}
+
+	.contact__info-title{
+		font-size: 24px;
+		line-height: 30px;
+	}
+
+	.contact__info-text{
+		font-size: 18px;
+	}
+}
+
+@media screen and (max-width: 450px){
+	.contact__form-header{
+		display: block !important;
 	}
 }
 </style>

@@ -20,6 +20,7 @@
 .header {
 	background-color: $color-white;
 	padding: 12px 24px;
+	border-radius: 0 0 10px 10px;
 	display: flex;
 	align-items: center;
 	box-shadow: $shadow;

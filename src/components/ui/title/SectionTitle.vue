@@ -79,4 +79,19 @@ onMounted(() => {
     opacity: 1;
   }
 }
+
+@media screen and (max-width: 768px){
+  .section__title {
+    font-size: 24px;
+    line-height: 36px;
+    margin-bottom: 12px;
+    height: 36px;
+  }
+}
+
+@media screen and (max-width: 450px){
+  .section__title {
+    font-size: 19px;
+  }
+}
 </style>

@@ -18,7 +18,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import gsap from 'gsap';
-import Button from '@/components/ui/Button.vue';
+import Button from '../Button.vue';
 
 onMounted(() => {
 	const contactSection = document.querySelector('.contactus');
@@ -60,6 +60,7 @@ onMounted(() => {
 
 	imgElement.addEventListener('animationend', () => {
 		iconElement.style.opacity = '1';
+		iconElement.style.transform = 'scale(1)'
 	});
 });
 </script>
@@ -71,14 +72,13 @@ onMounted(() => {
 	justify-content: space-between;
 	gap: 24px;
 	margin: 12px 0 24px 0;
-	padding: 24px;
-	
 
 	&__content{
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		width: 50%;
+		height: 240px;
 
     & > * {
 			opacity: 0;
@@ -109,25 +109,29 @@ onMounted(() => {
 	&__img{
 		display: flex;
 		width: 50%;
+		max-width: 480px;
 		justify-content: center;
+		align-items: center;
 		border-radius: 10px;
-      width: 60px;
-      height: 60px;
-      background: #f0f0f0;
-      box-shadow:  0 0 0 #cccccc,
-                   0 0 0 #ffffff,
-                    10px 10px 10px #cccccc inset,
-                    -10px -10px 10px #ffffff inset;
-			&.animate {
-				animation: message 3s cubic-bezier(0.16, 1, 0.3, 1) 0.3s alternate;
-				animation-fill-mode: forwards;
-			}
+		width: 60px;
+		height: 60px;
+		background: #f0f0f0;
+		box-shadow:  0 0 0 #cccccc,
+									0 0 0 #ffffff,
+									10px 10px 10px #cccccc inset,
+									-10px -10px 10px #ffffff inset;
+		&.animate {
+			animation: message 3s 0s alternate;
+			animation-fill-mode: forwards;
+		}
 
-			& img{
-				max-width: 170px;
-				opacity: 0;
-    		transition: opacity 0.3s ease-in-out;
-			}
+		& img{
+			max-width: 170px;
+			height: fit-content;
+			opacity: 0;
+			transform: scale(0.5);
+			transition: opacity 0.3s ease-in-out;
+		}
 	}
 }
 
@@ -152,7 +156,7 @@ onMounted(() => {
       }
       50% {
         width: 60px;
-        height: 240px;
+        height: 200px;
         background: #f8f8f8;
         box-shadow:  10px 10px 10px #cccccc,
                      10px 10px 10px #ffffff,
@@ -160,13 +164,110 @@ onMounted(() => {
                      0 0 0 #ffffff inset;
       }
       100% {
-        width: 480px;
-        height: 240px;
+        width: 100%;
+        height: 200px;
         background: #fafafa;
         box-shadow:  0px 20px 40px #cccccc,
                      0 0 0 #ffffff,
                      0 0 0 #cccccc inset,
                      2px 2px 2px #ffffff inset;
       }
+}
+
+@media screen and (max-width: 1280px){
+	.contactus{
+
+		&__content{
+
+			&-title{
+			font-size: 20px;
+			line-height: 42px;
+
+				& span{
+					font-size: 32px;
+				}
+			}
+			
+			&-text{
+				font-size: 16px;
+				line-height: 20px;
+			}
 		}
+	}
+}
+
+@media screen and (max-width: 1024px){
+	.contactus{
+
+		&__content{
+			min-width: 55%;
+		}
+	}
+
+	.contactus__img img{
+		width: 120px;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.contactus{
+		flex-wrap: wrap;
+		justify-content: center;
+
+		&__content{
+			width: 100%;
+			min-width: auto;
+			height: auto;
+
+			&-title{
+				font-size: 20px;
+				line-height: 40px;
+				
+				& span{
+					font-size: 28px;
+					line-height: 36px;
+				}
+			}
+
+			&-text{
+				font-size: 16px;
+				line-height: 20px;
+			}
+		}
+	}
+
+	.contactus__img img{
+		width: 150px;
+	}
+}
+
+@media screen and (max-width: 450px){
+	.contactus{
+
+		&__content{
+			width: 100%;
+			min-width: auto;
+			height: auto;
+
+			&-title{
+				font-size: 16px;
+				line-height: 35px;
+				
+				& span{
+					font-size: 20px;
+					line-height: 36px;
+				}
+			}
+
+			&-text{
+				font-size: 14px;
+				line-height: 20px;
+			}
+		}
+	}
+
+	.contactus__img img{
+		width: 120px;
+	}
+}
 </style>

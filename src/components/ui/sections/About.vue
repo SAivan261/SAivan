@@ -75,7 +75,7 @@ onMounted(() => {
         listObserver.disconnect();
       }
     },
-    { threshold: 1.0 }
+    { threshold: 0.4 }
   );
 
   if (aboutList.value) {
@@ -172,13 +172,13 @@ onMounted(() => {
 		padding: 66px 12px 12px 12px;
 		border-radius: 10px;
 		flex: 1 1 0px;
-		opacity: 0; /* Изначально скрыт */
-		transform: translateX(-20px); /* Сдвиг влево */
-		transition: all 0.5s ease-in-out; /* Плавная анимация */
+		opacity: 0;
+		transform: translateX(-20px);
+		transition: all 0.5s ease-in-out;
 
 		&.animate-item {
-			opacity: 1; /* Плавное появление */
-			transform: translateX(0); /* Возвращение на место */
+			opacity: 1;
+			transform: translateX(0);
 		}
 
 		&:nth-of-type(3) {
@@ -206,14 +206,14 @@ onMounted(() => {
 			color: $color-text;
 			font-size: 24px;
 			line-height: 30px;
-			opacity: 0; /* Изначально скрыт */
-			transform: translateX(-10px); /* Сдвиг влево */
-			transition: all 0.4s ease-in-out; /* Плавная анимация */
-			transition-delay: 0.2s; /* Задержка после появления блока */
+			opacity: 0;
+			transform: translateX(-10px);
+			transition: all 0.4s ease-in-out;
+			transition-delay: 0.2s;
 
 			&.animate-title {
-				opacity: 1; /* Плавное появление */
-				transform: translateX(0); /* Возвращение на место */
+				opacity: 1;
+				transform: translateX(0);
 			}
 
 			&-before {
@@ -250,12 +250,12 @@ onMounted(() => {
 		&_text {
 			font-size: 16px;
 			line-height: 27px;
-			opacity: 0; /* Изначально скрыт */
-			transition: opacity 0.4s ease-in-out; /* Плавная анимация */
-			transition-delay: 0.4s; /* Задержка после появления заголовка */
+			opacity: 0;
+			transition: opacity 0.4s ease-in-out;
+			transition-delay: 0.4s;
 
 			&.animate-text {
-				opacity: 1; /* Плавное появление */
+				opacity: 1;
 			}
 		}
 
@@ -271,6 +271,71 @@ onMounted(() => {
 				line-height: 27px;
 			}
 		}
+	}
+}
+
+@media screen and (max-width: 1280px){
+	.about{
+		&-item{
+			&_title{
+				font-size: 20px;
+				line-height: 28px;
+			}
+		}
+
+		&-text{
+			font-size: 20px;
+			line-height: 28px;
+		}
+	}
+}
+
+@media screen and (max-width: 1024px){
+	.about{
+
+		&-list {
+			flex-wrap: wrap;
+			gap: 12px;
+			margin-bottom: 12px;
+			align-items: stretch;
+		}
+
+		&-item{
+			min-width: 250px;
+			height: auto;
+
+			&_title{
+				font-size: 18px;
+				line-height: 24px;
+			}
+		}
+
+		&-text-container{
+			padding-top: 24px;
+			height: auto;
+		}
+
+		&-text{
+			font-size: 16px;
+			line-height: 24px;
+		}
+	}
+}
+
+@media screen and (max-width: 450px){
+	.about-item_title {
+		font-size: 16px;
+		line-height: 20px;
+	}
+
+	.about-item_text{
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.about-text {
+		font-size: 14px;
+		line-height: 20px;
 	}
 }
 </style>
