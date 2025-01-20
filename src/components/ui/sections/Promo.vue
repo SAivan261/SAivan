@@ -24,15 +24,17 @@
 					<div class="promo__content-calc_header">
 						<p class="promo__content-calc_title">Рассчитайте стоимость</p>
 						<div class="promo__content-calc_num">
+							от
 							<n-number-animation
 								ref="numberAnimationInstRef"
 								:from="0"
-								:to="699700.699"
-								:active="false"
+								:to="selectedPrice"
+								:active="true"
 								:precision="0"
 								locale="ru-RU"
 								show-separator
 							/>
+							₽
 							<calculator_ico color="primary" size="28" />
 						</div>
 					</div>
@@ -40,11 +42,12 @@
 						<n-select
 							class="promo__content-calc_item"
 							placeholder="Тип сайта"
-							v-model:value="value"
+							v-model:value="selectedType"
 							:options="options"
+							@update:value="updatePrice"
 						/>
 					</div>
-					<Button>Оставить заявку</Button>
+					<Button @click='toContact'>Оставить заявку</Button>
 				</div>
 				<div 
 				class="promo__content-advantage_container"
@@ -77,8 +80,14 @@ import arrow_ico from '@/components/icons/arrow_ico.vue'
 import calculator_ico from '@/components/icons/calculator_ico.vue'
 import gsap from 'gsap';
 import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router';
 
 const value = ref(null)
+const router = useRouter()
+
+const toContact = () => {
+	router.push('/contact')
+}
 
 const IconArrow = computed(() => {
   if (window.innerWidth < 450) {
@@ -99,20 +108,28 @@ const isTablet = computed(() => {
 	}
 })
 
-const options = ref([
-	{
-		label: "Everybody's Got Something to Hide Except Me and My Monkey",
-		value: 'song0',
-	},
-	{
-		label: 'Drive My Car',
-		value: 'song1',
-	},
-	{
-		label: 'Norwegian Wood',
-		value: 'song2',
-	},
-])
+const options = [
+	{ label: 'Лендинг', value: 'landing', price: 29900 },
+	{ label: 'Корпоративный сайт', value: 'corporate', price: 49900 },
+	{ label: 'Интернет-магазин', value: 'ecommerce', price: 79900 },
+	{ label: 'Портал', value: 'portal', price: 49900 },
+	{ label: 'Визитка', value: 'business_card', price: 19900 },
+	{ label: 'Блог', value: 'blog', price: 24900 },
+	{ label: 'Новостной сайт', value: 'news', price: 39900 },
+	{ label: 'Образовательная платформа', value: 'education', price: 69900 },
+	{ label: 'Форум', value: 'forum', price: 34900 },
+	{ label: 'Сайт для мероприятий', value: 'event', price: 29900 },
+	{ label: 'Каталог товаров', value: 'catalog', price: 45900 },
+];
+
+
+const selectedType = ref(null);
+const selectedPrice = ref(0);
+
+function updatePrice(type) {
+	const selectedOption = options.find(option => option.value === type);
+	selectedPrice.value = selectedOption ? selectedOption.price : 0;
+}
 
 onMounted(() => {
 	const title = document.querySelector('.promo__content-title');
@@ -397,7 +414,7 @@ onMounted(() => {
 		}
 
 		&-advantage {
-			padding: 12px 0 0 12px;
+			padding: 12px;
 			background-position: center;
 			background-size: cover;
 			border-radius: 10px;

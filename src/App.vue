@@ -2,10 +2,12 @@
 	<n-config-provider :theme-overrides="themeOverrides">
 		<Header/>
 		<RouterView />
+		<Footer/>
 	</n-config-provider>
 </template>
 
 <script setup>
+import Footer from './components/Footer.vue'
 import Header from './components/Header.vue';
 const themeOverrides = {
 	common: {

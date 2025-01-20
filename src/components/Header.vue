@@ -2,8 +2,8 @@
 	<header class="header">
 		<div class="header__container">
 			<RouterLink to="/"> 
-			<div class="header__container-ico"></div>
-		</RouterLink>
+				<div class="header__container-ico"></div>
+			</RouterLink>
 			<nav class="header__container-menu">
 				<RouterLink to="/contact" class="header__container-menu_item"
 					>Контакты</RouterLink
@@ -44,6 +44,7 @@
 			gap: 48px;
 
 			&_item {
+				font-size: 16px;
 				color: $color-primary;
 			}
 		}
