@@ -13,7 +13,7 @@
 						>
 							<n-input
 								size="large"
-								v-model:value="inputValue"
+								v-model:value="formData.name"
 								clearable
 								placeholder="Ваше имя"
 							/>
@@ -25,7 +25,7 @@
 						>
 							<n-input
 								size="large"
-								v-model:value="inputValue"
+								v-model:value="formData.phone"
 								clearable
 								placeholder="Ваш телефон"
 							/>
@@ -37,31 +37,16 @@
 					>
 						<n-input
 							size="medium"
-							v-model:value="value"
+							v-model:value="formData.comment"
 							type="textarea"
 							placeholder="Комментарий"
 						/>
 					</n-form-item>
 
 					<n-form-item
-						label="Загрузите ТЗ (при наличии)"
-						:validation-status="inputNumberValidationStatus"
+						label="Заполните бриф, это поможет нам лучше понять друг друга"
 					>
-						<n-upload
-							multiple
-							directory-dnd
-							action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
-							:max="5"
-						>
-							<n-upload-dragger>
-								<div style="margin-bottom: 12px">
-									<archive_ico size="48" color="primary" />
-								</div>
-								<n-text style="font-size: 16px">
-									Нажмите или перенесите файл сюда
-								</n-text>
-							</n-upload-dragger>
-						</n-upload>
+						<button class='contact__secondary-button' @click="showModal = true">Заполнить бриф</button>
 					</n-form-item>
 					<Button style="width: 100%">Отправить</Button>
 				</n-form>
@@ -70,12 +55,12 @@
 			<div class="contact__info-container">
 				<h2 class="contact__info-title">Контактная информация</h2>
 				<div class="contact__info-content">
-					<telegram_ico :size="iconSize" />
-					<p class="contact__info-text">8(999)999-99-99</p>
+					<phone_ico :size="iconSize" />
+					<p class="contact__info-text">8(906)545-66-91</p>
 				</div>
 				<div class="contact__info-content">
 					<telegram_ico :size="iconSize" />
-					<p class="contact__info-text">8(999)999-99-99</p>
+					<p class="contact__info-text">8(906)545-66-91</p>
 				</div>
 				<div class="contact__info-content">
 					<email_ico :size="iconSize" />
@@ -84,15 +69,213 @@
 			</div>
 		</div>
 	</div>
+
+	<n-modal
+    v-model:show="showModal"
+    class="contact__modal"
+    preset="card"
+    :style="bodyStyle"
+    title="Бриф"
+    :bordered="false"
+    size="small"
+    :segmented="segmented"
+  >
+	<n-form :model="formData.brief">
+		<n-scrollbar style="max-height: 70vh;">
+    <!-- 1. Общая информация -->
+		<div class="contact__modal-item">
+			<p class="contact__modal-title">Общая информация</p>
+			<n-form-item label="Название компании">
+				<n-input v-model:value="formData.brief.companyName" placeholder="Укажите название вашей компании или проекта" />
+			</n-form-item>
+			<n-form-item label="Сфера деятельности">
+				<n-input
+					v-model:value="formData.brief.businessArea"
+					placeholder="Опишите, чем занимается ваша компания"
+				/>
+			</n-form-item>
+			<n-form-item label="Целевая аудитория">
+				<n-input
+					v-model:value="formData.brief.targetAudience"
+					placeholder="Опишите вашу целевую аудиторию"
+				/>
+			</n-form-item>
+		</div>
+    <!-- 2. Цели сайта -->
+		<div class="contact__modal-item">
+			<p class="contact__modal-title">Цели сайта</p>
+			<n-form-item label="Основная цель">
+				<n-input v-model:value="formData.brief.mainGoal" placeholder="Например, продажа товаров" />
+			</n-form-item>
+			<n-form-item label="Дополнительные цели">
+				<n-input
+					v-model:value="formData.brief.additionalGoals"
+					placeholder="Например, увеличение подписчиков"
+				/>
+			</n-form-item>
+		</div>
+
+    <!-- 3. Тип сайта -->
+    <div class="contact__modal-item">
+			<p class="contact__modal-title">Тип сайта</p>
+			<n-form-item label="Тип сайта">
+				<n-select
+					v-model:value="formData.brief.siteType"
+					:options="options"
+					placeholder="Тип сайта"
+				/>
+			</n-form-item>
+			<n-form-item label="Другое">
+				<n-input v-model:value="formData.brief.otherSiteType" placeholder="Уточните, если нужно" />
+			</n-form-item>
+		</div>
+
+    <!-- 4. Структура сайта -->
+		<div class="contact__modal-item">
+			<p class="contact__modal-title">Структура сайта</p>
+			<n-form-item label="Основные разделы">
+				<n-input
+					v-model:value="formData.brief.siteStructure"
+					type="textarea"
+					placeholder="Опишите основные разделы сайта"
+				/>
+			</n-form-item>
+		</div>
+    <!-- 5. Дизайн и стиль -->
+		<div class="contact__modal-item">
+			<p class="contact__modal-title">Дизайн и стиль</p>
+			<n-form-item label="Предпочтения по дизайну">
+				<n-input
+					v-model:value="formData.brief.designPreferences"
+					placeholder="Опишите, какой стиль вам нравится"
+				/>
+			</n-form-item>
+			<n-form-item label="Цветовая гамма">
+				<n-input v-model:value="formData.brief.colorScheme" placeholder="Укажите предпочтения по цветам" />
+			</n-form-item>
+			<n-form-item label="Примеры сайтов">
+				<n-input
+					v-model:value="formData.brief.siteExamples"
+					type="textarea"
+					placeholder="Приведите 2-3 ссылки на сайты, которые вам нравятся"
+				/>
+			</n-form-item>
+			<n-form-item label="Примеры сайтов">
+				<n-input
+					v-model:value="formData.brief.siteExamples"
+					type="textarea"
+					placeholder="Приведите 2-3 ссылки на сайты, которые вам не нравятся"
+				/>
+			</n-form-item>
+		</div>
+
+    <!-- 6. Функционал -->
+    <div class="contact__modal-item">
+			<p class="contact__modal-title">Функционал</p>
+			<n-form-item label="Необходимые функции">
+				<n-input
+					v-model:value="formData.brief.requiredFeatures"
+					type="textarea"
+					placeholder="Перечислите необходимые функции"
+				/>
+			</n-form-item>
+		</div>
+
+		 <!-- 7. Контент -->
+		<div class="contact__modal-item">
+			<p class="contact__modal-title">Контент</p>
+			<n-form-item label="Кто предоставляет контент">
+				<n-input v-model:value="formData.brief.contentProvider" placeholder="Например, заказчик" />
+			</n-form-item>
+			<n-form-item label="Необходимые материалы">
+				<n-input
+					v-model:value="formData.brief.requiredMaterials"
+					placeholder="Укажите, что у вас уже есть"
+				/>
+			</n-form-item>
+		</div>
+
+    <!-- 8. Сроки -->
+    <div class="contact__modal-item">
+			<p class="contact__modal-title">Сроки</p>
+			<n-form-item label="Желаемые сроки запуска">
+				<n-input v-model:value="formData.brief.deadline" placeholder="Например, через 1 месяц" />
+			</n-form-item>
+		</div>
+
+    <!-- 9. Бюджет -->
+    <div class="contact__modal-item">
+			<p class="contact__modal-title">Бюджет</p>
+			<n-form-item label="Ориентировочный бюджет">
+				<n-input v-model:value="formData.brief.budget" placeholder="Например, до 100 000 рублей" />
+			</n-form-item>
+		</div>
+
+    <!-- 10. Дополнительная информация -->
+    <div class="contact__modal-item">
+			<p class="contact__modal-title">Бюджет</p>
+			<n-form-item label="Дополнительные пожелания">
+				<n-input
+					v-model:value="formData.brief.additionalInfo"
+					type="textarea"
+					placeholder="Укажите дополнительные пожелания"
+				/>
+			</n-form-item>
+		</div>
+
+    <button class='contact__secondary-button' @click="showModal = false">Сохранить</button>
+		</n-scrollbar>
+		</n-form>
+  </n-modal>
 </template>
 
 <script setup>
-import archive_ico from '@/components/icons/archive_ico.vue'
 import email_ico from '@/components/icons/email_ico.vue'
 import telegram_ico from '@/components/icons/telegram_ico.vue'
+import phone_ico from '@/components/icons/phone_ico.vue'
 import Button from '@/components/ui/Button.vue'
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import gsap from 'gsap';
+
+const formData = ref({
+  name: '',
+  phone: '',
+  comment: '',
+  brief: {
+    companyName: '',
+    businessArea: '',
+    targetAudience: '',
+    mainGoal: '',
+    additionalGoals: '',
+    siteType: '',
+    otherSiteType: '',
+    siteStructure: '',
+    designPreferences: '',
+    colorScheme: '',
+    siteExamples: '',
+    requiredFeatures: '',
+    contentProvider: '',
+    requiredMaterials: '',
+    deadline: '',
+    deliveryStages: '',
+    budget: '',
+    additionalInfo: ''
+  }
+});
+
+const options = [
+  { label: 'Лендинг (одностраничный сайт)', value: 'landing', price: 29900 },
+  { label: 'Корпоративный сайт', value: 'corporate', price: 49900 },
+  { label: 'Интернет-магазин', value: 'ecommerce', price: 79900 },
+  { label: 'Многофункциональный портал', value: 'portal', price: 49900 },
+  { label: 'Сайт-визитка', value: 'business_card', price: 19900 },
+  { label: 'Блог', value: 'blog', price: 24900 },
+  { label: 'Новостной портал', value: 'news', price: 39900 },
+  { label: 'Образовательная платформа', value: 'education', price: 69900 },
+  { label: 'Форум', value: 'forum', price: 34900 },
+  { label: 'Сайт для мероприятий', value: 'event', price: 29900 },
+  { label: 'Каталог товаров', value: 'catalog', price: 45900 },
+];
 
 const iconSize = computed(() => {
   if (window.innerWidth < 1024) {
@@ -101,6 +284,8 @@ const iconSize = computed(() => {
     return 48;
   }
 });
+
+const showModal = ref(false)
 
 onMounted(() => {
   const contact = document.querySelector('.contact');
@@ -176,7 +361,7 @@ onMounted(() => {
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .contact {
 	padding: 0 12px;
 	margin: 12px 0;
@@ -268,6 +453,40 @@ onMounted(() => {
 
 	&__info-text {
 		font-size: 24px;
+	}
+
+	&__secondary-button{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		border-radius: 20px;
+		padding: 12px 24px;
+		border: none;
+		width: 100%;
+		background-color: #6f94c216;
+		color: $color-primary;
+		transition: background-color 0.3s ease;
+
+		&:hover{
+			background-color: #6f94c24d;
+		}
+	}
+
+	&__modal{
+		max-width: 1000px;
+		width: 90vw;
+		height: 80vh;
+
+		&-item{
+			display: flex;
+			flex-direction: column;
+		}
+
+		&-title{
+			font-size: 16px;
+			margin-bottom: 12px;
+		}
 	}
 }
 

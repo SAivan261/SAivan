@@ -2,12 +2,12 @@
 	<div class='contactus'>
 				<div class='contactus__content'>
 					<h2 class='contactus__content-title'>
-						<span>Свяжитесь с нами</span>
+						<span>Начните свой проект</span>
 						<br>
-						 и начните ваш проект уже сегодня
+						 уже сегодня
 					</h2>
-					<p class='contactus__content-text'>Наша команда предложит лучшие решения и поможет сделать ваш бизнес успешным в цифровом пространстве. Нажмите на кнопку ниже и оставьте заявку — первый шаг к вашему сайту.</p>
-					<Button>Оставить заявку</Button>
+					<p class='contactus__content-text'>Мы создаём сайты, которые привлекают клиентов и увеличивают продажи. Оставьте заявку, и мы предложим оптимальное решение для вашего бизнеса. Первый шаг к успешному проекту — это просто!</p>
+					<Button @click='toContact'>Обсудить проект</Button>
 				</div>
 				<div class='contactus__img'>
 						<img class='icon' src="@/assets/message.svg" alt="">
@@ -19,7 +19,12 @@
 import { onMounted } from 'vue';
 import gsap from 'gsap';
 import Button from '../Button.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
+const toContact = () =>{
+	router.push('/contact')
+}
 onMounted(() => {
 	const contactSection = document.querySelector('.contactus');
 	const contentElements = document.querySelectorAll(

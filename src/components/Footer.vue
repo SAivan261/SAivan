@@ -13,11 +13,11 @@
 				</li>
 				<li class="footer__item">
 					<Phone_ico/>
-					<a href="" class="footer__item-link">8(999)999-99-99</a>
+					<a href="" class="footer__item-link">8(906)545-66-91</a>
 				</li>
 				<li class="footer__item">
 					<Telegram_ico/>
-					<a href="" class="footer__item-link">8(999)999-99-99</a>
+					<a href="" class="footer__item-link">8(906)545-66-91</a>
 				</li>
 				<li class="footer__item">
 					<Email_ico/>
@@ -39,6 +39,8 @@ import Email_ico from './icons/email_ico.vue';
 .footer{
 	padding: 24px;
 	background-color: $color-primary;
+	border-radius: 10px 10px 0 0;
+	box-shadow: $shadow;
 	&__container{
 		display: flex;
 		justify-content: space-between;

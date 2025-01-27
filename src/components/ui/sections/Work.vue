@@ -63,15 +63,15 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 const blocks = reactive([
 	{
 		visible: false,
-		text: 'Всем привет я текст. Как дела? блок 1',
+		text: 'Типографика и колористика в стиле вашего бренда',
 	},
 	{
 		visible: false,
-		text: 'Всем привет я текст. Как дела? блок 2',
+		text: 'Быстрая работа и стабильность сайта',
 	},
 	{
 		visible: false,
-		text: 'Всем привет я текст. Как дела? блок 3',
+		text: 'Удобство и красота на любых устройствах',
 	},
 ]);
 

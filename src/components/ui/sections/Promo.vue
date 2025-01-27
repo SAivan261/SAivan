@@ -22,7 +22,7 @@
 				class='promo__content-calc_wrapper'
 				:class="isTablet ? 'mobile' : ''">
 					<div class="promo__content-calc_header">
-						<p class="promo__content-calc_title">Рассчитайте стоимость</p>
+						<p class="promo__content-calc_title">Узнайте стоимость вашего сайта</p>
 						<div class="promo__content-calc_num">
 							от
 							<n-number-animation
@@ -47,17 +47,16 @@
 							@update:value="updatePrice"
 						/>
 					</div>
-					<Button @click='toContact'>Оставить заявку</Button>
+					<Button @click='toContact'>Обсудить проект</Button>
 				</div>
 				<div 
 				class="promo__content-advantage_container"
 				:class="isTablet ? 'mobile' : ''">
 					<div class="promo__content-advantage_container-before"></div>
 					<div class="promo__content-advantage">
-						<h3 class="promo__content-advantage_title">Бюджет</h3>
+						<h3 class="promo__content-advantage_title">Гибкие цены	</h3>
 						<p class="promo__content-advantage_text">
-							Наши услуги подходят для любого бюджета, обеспечивая высокое
-							качество.
+							Мы предлагаем решения для любого бюджета, не жертвуя качеством и функциональностью.
 						</p>
 					</div>
 					<div class="promo__content-advantage">
@@ -109,17 +108,17 @@ const isTablet = computed(() => {
 })
 
 const options = [
-	{ label: 'Лендинг', value: 'landing', price: 29900 },
-	{ label: 'Корпоративный сайт', value: 'corporate', price: 49900 },
-	{ label: 'Интернет-магазин', value: 'ecommerce', price: 79900 },
-	{ label: 'Портал', value: 'portal', price: 49900 },
-	{ label: 'Визитка', value: 'business_card', price: 19900 },
-	{ label: 'Блог', value: 'blog', price: 24900 },
-	{ label: 'Новостной сайт', value: 'news', price: 39900 },
-	{ label: 'Образовательная платформа', value: 'education', price: 69900 },
-	{ label: 'Форум', value: 'forum', price: 34900 },
-	{ label: 'Сайт для мероприятий', value: 'event', price: 29900 },
-	{ label: 'Каталог товаров', value: 'catalog', price: 45900 },
+  { label: 'Лендинг (одностраничный сайт)', value: 'landing', price: 29900 },
+  { label: 'Корпоративный сайт', value: 'corporate', price: 49900 },
+  { label: 'Интернет-магазин', value: 'ecommerce', price: 79900 },
+  { label: 'Многофункциональный портал', value: 'portal', price: 49900 },
+  { label: 'Сайт-визитка', value: 'business_card', price: 19900 },
+  { label: 'Блог', value: 'blog', price: 24900 },
+  { label: 'Новостной портал', value: 'news', price: 39900 },
+  { label: 'Образовательная платформа', value: 'education', price: 69900 },
+  { label: 'Форум', value: 'forum', price: 34900 },
+  { label: 'Сайт для мероприятий', value: 'event', price: 29900 },
+  { label: 'Каталог товаров', value: 'catalog', price: 45900 },
 ];
 
 
@@ -553,12 +552,12 @@ onMounted(() => {
 	}
 
 	.promo__content-text[data-v-5bf7021c] {
-		font-size: 16px;
+		font-size: 14px;
 		line-height: 20px;
 	}
 
 	.promo__content-calc_title {
-		font-size: 16px;
+		font-size: 14px;
 	}
 
 	.promo__content{

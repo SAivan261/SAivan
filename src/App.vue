@@ -1,8 +1,12 @@
 <template>
 	<n-config-provider :theme-overrides="themeOverrides">
-		<Header/>
-		<RouterView />
-		<Footer/>
+		<n-modal-provider>
+			<div class='content'>
+				<Header/>
+				<RouterView />
+				<Footer class='footer'/>
+			</div>
+		</n-modal-provider>
 	</n-config-provider>
 </template>
 
@@ -18,4 +22,14 @@ const themeOverrides = {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.content{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+.footer{
+	margin-top: auto;
+}
+</style>
