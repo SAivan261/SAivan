@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="header__container">
 			<RouterLink to="/"> 
-				<div class="header__container-ico"></div>
+				<div class="header__container-ico"><img src="@/assets/logo-primary.svg" alt=""></div>
 			</RouterLink>
 			<nav class="header__container-menu">
 				<RouterLink to="/contact" class="header__container-menu_item"
@@ -32,10 +32,13 @@
 		justify-content: space-between;
 
 		&-ico {
-			width: 40px;
-			height: 40px;
-			background-color: $color-primary;
-			border-radius: 20px;
+			height: 30px;
+
+			& img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
 		}
 
 		&-menu {

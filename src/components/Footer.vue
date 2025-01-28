@@ -2,7 +2,9 @@
 	<footer class='footer'>
 		<div class="footer__container">
 			<RouterLink to="/"> 
-				<div class="footer__container-ico"></div>
+				<div class="footer__container-ico">
+					<img src="@/assets/logo.svg" alt="">
+				</div>
 			</RouterLink>
 			<RouterLink to="/contact" class="footer__container-menu_item">
 				Контакты
@@ -48,10 +50,13 @@ import Email_ico from './icons/email_ico.vue';
 		color: $color-white;
 
 		&-ico {
-			width: 40px;
-			height: 40px;
-			background-color: $color-white;
-			border-radius: 20px;
+			width: 100px;
+
+			& img{
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
 		}
 
 		&-menu_item{

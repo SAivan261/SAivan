@@ -22,7 +22,7 @@
 				class='promo__content-calc_wrapper'
 				:class="isTablet ? 'mobile' : ''">
 					<div class="promo__content-calc_header">
-						<p class="promo__content-calc_title">Узнайте стоимость вашего сайта</p>
+						<p class="promo__content-calc_title">Узнайте&nbsp;стоимость вашего&nbsp;сайта</p>
 						<div class="promo__content-calc_num">
 							от
 							<n-number-animation
@@ -306,6 +306,7 @@ onMounted(() => {
 
 		&-calc_header {
 			display: flex;
+			gap: 4px;
 			align-items: center;
 			justify-content: space-between;
 			width: 100%;
@@ -313,8 +314,9 @@ onMounted(() => {
 
 		&-calc_num {
 			display: flex;
-			gap: 6px;
+			gap: 2px;
 			align-items: center;
+			white-space: nowrap;
 		}
 
 		&-calc_title {
@@ -329,7 +331,7 @@ onMounted(() => {
 		}
 
 		&-calc_item {
-			max-width: 232px;
+			max-width: 336px;
 		}
 
 		&-text {
@@ -420,7 +422,7 @@ onMounted(() => {
 			color: $color-white;
 			width: 200px;
 			opacity: 0;
-			transform: translateY(-50px);
+			transform: translateY(0px);
 
 			&:nth-of-type(2) {
 				background-image: url('@/assets/variable_bg-blue.jpg');
@@ -576,6 +578,14 @@ onMounted(() => {
 				}
 			}
 		}
+	}
+
+	.promo__content-calc_num{
+		font-size: 14px;
+	}
+
+	.promo__content-calc_item{
+		max-width: 100%;
 	}
 }
 </style>
