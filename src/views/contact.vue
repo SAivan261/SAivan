@@ -48,7 +48,7 @@
 					>
 						<button class='contact__secondary-button' @click="showModal = true">Заполнить бриф</button>
 					</n-form-item>
-					<Button style="width: 100%">Отправить</Button>
+					<Button style="width: 100%" @click="sendToTelegram">Отправить</Button>
 				</n-form>
 			</div>
 
@@ -285,7 +285,104 @@ const iconSize = computed(() => {
   }
 });
 
-const showModal = ref(false)
+const showModal = ref(false);
+
+// Функция для очистки формы
+const clearForm = () => {
+  formData.value = {
+    name: '',
+    phone: '',
+    comment: '',
+    brief: {
+      companyName: '',
+      businessArea: '',
+      targetAudience: '',
+      mainGoal: '',
+      additionalGoals: '',
+      siteType: '',
+      otherSiteType: '',
+      siteStructure: '',
+      designPreferences: '',
+      colorScheme: '',
+      siteExamples: '',
+      requiredFeatures: '',
+      contentProvider: '',
+      requiredMaterials: '',
+      deadline: '',
+      deliveryStages: '',
+      budget: '',
+      additionalInfo: ''
+    }
+  };
+};
+
+// Функция для проверки пустых значений
+const hasEmptyFields = () => {
+  const { name, phone, comment } = formData.value;
+  return !name || !phone || !comment;
+};
+
+const sendToTelegram = async () => {
+  // Проверка на пустые поля
+  if (hasEmptyFields()) {
+    alert('Пожалуйста, заполните все обязательные поля.');
+    return;
+  }
+
+  const botToken = '7939558425:AAGY9DBX5WkAV7r-hXWYi3aD-0rxQxbf4Ck';
+  const chatId = '638085718';
+
+  // Формируем сообщение, исключая пустые значения
+  const messageParts = [
+    `Новая заявка:`,
+    `Имя: ${formData.value.name}`,
+    `Телефон: ${formData.value.phone}`,
+    `Комментарий: ${formData.value.comment}`,
+    `Бриф:`,
+    `Название компании: ${formData.value.brief.companyName || 'Не указано'}`,
+    `Сфера деятельности: ${formData.value.brief.businessArea || 'Не указано'}`,
+    `Целевая аудитория: ${formData.value.brief.targetAudience || 'Не указано'}`,
+    `Основная цель: ${formData.value.brief.mainGoal || 'Не указано'}`,
+    `Дополнительные цели: ${formData.value.brief.additionalGoals || 'Не указано'}`,
+    `Тип сайта: ${formData.value.brief.siteType || 'Не указано'}`,
+    `Другое: ${formData.value.brief.otherSiteType || 'Не указано'}`,
+    `Структура сайта: ${formData.value.brief.siteStructure || 'Не указано'}`,
+    `Предпочтения по дизайну: ${formData.value.brief.designPreferences || 'Не указано'}`,
+    `Цветовая гамма: ${formData.value.brief.colorScheme || 'Не указано'}`,
+    `Примеры сайтов: ${formData.value.brief.siteExamples || 'Не указано'}`,
+    `Необходимые функции: ${formData.value.brief.requiredFeatures || 'Не указано'}`,
+    `Кто предоставляет контент: ${formData.value.brief.contentProvider || 'Не указано'}`,
+    `Необходимые материалы: ${formData.value.brief.requiredMaterials || 'Не указано'}`,
+    `Желаемые сроки запуска: ${formData.value.brief.deadline || 'Не указано'}`,
+    `Ориентировочный бюджет: ${formData.value.brief.budget || 'Не указано'}`,
+    `Дополнительные пожелания: ${formData.value.brief.additionalInfo || 'Не указано'}`
+  ];
+
+  const message = messageParts.join('\n');
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+      }),
+    });
+
+    if (response.ok) {
+
+      clearForm(); // Очищаем форму после успешной отправки
+    } else {
+      alert('Ошибка при отправке данных.');
+    }
+  } catch (error) {
+    console.error('Ошибка:', error);
+    alert('Произошла ошибка при отправке данных.');
+  }
+};
 
 onMounted(() => {
   const contact = document.querySelector('.contact');
