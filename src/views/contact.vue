@@ -23,12 +23,13 @@
 							label="Телефон"
 							:validation-status="inputNumberValidationStat"
 						>
-							<n-input
-								size="large"
-								v-model:value="formData.phone"
-								clearable
-								placeholder="Ваш телефон"
-							/>
+						<n-input
+							size="large"
+							v-model:value="formData.phone"
+							@input="handleInput"
+							clearable
+							placeholder="+7 (___) ___-__-__"
+						/>
 						</n-form-item>
 					</n-space>
 					<n-form-item
@@ -123,6 +124,8 @@
 					v-model:value="formData.brief.siteType"
 					:options="options"
 					placeholder="Тип сайта"
+					label-field="label"
+					value-field="value"
 				/>
 			</n-form-item>
 			<n-form-item label="Другое">
@@ -277,6 +280,35 @@ const options = [
   { label: 'Каталог товаров', value: 'catalog', price: 45900 },
 ];
 
+const getLabelByValue = (value) => {
+  const option = options.find(opt => opt.value === value);
+  return option ? option.label : 'Не указано';
+};
+
+const handleInput = (v) => {
+  let input = v.replace(/\D/g, ''); // Убираем все нецифровые символы
+  let formattedInput = '+7';
+
+  if (input.length > 1) {
+    input = input.substring(1); // Убираем первую цифру, если пользователь ввел "+7" или "8"
+  }
+
+  if (input.length > 0) {
+    formattedInput += ` (${input.substring(0, 3)}`;
+  }
+  if (input.length > 3) {
+    formattedInput += `) ${input.substring(3, 6)}`;
+  }
+  if (input.length > 6) {
+    formattedInput += `-${input.substring(6, 8)}`;
+  }
+  if (input.length > 8) {
+    formattedInput += `-${input.substring(8, 10)}`;
+  }
+  formData.value.phone = formattedInput;
+};
+
+
 const iconSize = computed(() => {
   if (window.innerWidth < 1024) {
     return 30;
@@ -344,7 +376,7 @@ const sendToTelegram = async () => {
     `Целевая аудитория: ${formData.value.brief.targetAudience || 'Не указано'}`,
     `Основная цель: ${formData.value.brief.mainGoal || 'Не указано'}`,
     `Дополнительные цели: ${formData.value.brief.additionalGoals || 'Не указано'}`,
-    `Тип сайта: ${formData.value.brief.siteType || 'Не указано'}`,
+    `Тип сайта: ${getLabelByValue(formData.value.brief.siteType)}`,
     `Другое: ${formData.value.brief.otherSiteType || 'Не указано'}`,
     `Структура сайта: ${formData.value.brief.siteStructure || 'Не указано'}`,
     `Предпочтения по дизайну: ${formData.value.brief.designPreferences || 'Не указано'}`,
