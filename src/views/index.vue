@@ -50,7 +50,7 @@ onMounted(() => {
 		background-color: $color-white;
 		box-shadow: $shadow;
 		border-radius: 10px;
-		opacity: 0;
+		opacity: 1;
 	}
 }
 </style>
