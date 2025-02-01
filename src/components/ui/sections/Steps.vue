@@ -13,7 +13,7 @@ import SectionTitle from '../title/SectionTitle.vue';
 import { onMounted, computed } from 'vue';
 import gsap from 'gsap';
 
-const isMobile = computed(() => window.innerWidth < 768);
+const isMobile = computed(() => window.innerWidth < 550);
 
 onMounted(() => {
   const container = document.querySelector('.steps__container');
@@ -103,6 +103,12 @@ onMounted(() => {
 		background-color: #fff;
 		z-index: 3;
 		transform-origin: right center;
+	}
+}
+
+@media screen and (max-width: 768px){
+	.steps__container-arrow{
+		left: 49%;
 	}
 }
 
