@@ -18,55 +18,66 @@
 <script setup>
 import { onMounted } from 'vue';
 import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 import Button from '../Button.vue';
 import { useRouter } from 'vue-router';
-const router = useRouter()
 
-const toContact = () =>{
-	router.push('/contact')
-}
+gsap.registerPlugin(ScrollTrigger);
+
+const router = useRouter();
+
+const toContact = () => {
+  router.push('/contact');
+};
+
 onMounted(() => {
-	const contactSection = document.querySelector('.contactus');
-	const contentElements = document.querySelectorAll(
-		'.contactus__content > *'
-	);
-	const imgElement = document.querySelector('.contactus__img');
-	const iconElement = imgElement.querySelector('.icon');
+  const contentElements = document.querySelectorAll('.contactus__content > *');
+  const imgElement = document.querySelector('.contactus__img');
+  const iconElement = imgElement.querySelector('.icon');
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting) {
-					gsap.fromTo(
-						contentElements,
-						{
-							opacity: 0,
-							x: -50,
-						},
-						{
-							opacity: 1,
-							x: 0,
-							duration: 1,
-							stagger: 0.3,
-							ease: 'power2.out',
-						}
-					);
-					imgElement.classList.add('animate');
-					observer.unobserve(entry.target);
-				}
-			});
-		},
-		{
-			threshold: 0.8,
-		}
-	);
+  // Анимация контента
+  gsap.fromTo(
+    contentElements,
+    { opacity: 0, x: -50 },
+    {
+      opacity: 1,
+      x: 0,
+      duration: 1,
+      stagger: 0.3,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.contactus',
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+      },
+    }
+  );
 
-	observer.observe(contactSection);
+  // Создание таймлайна для анимации блока и появления иконки
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.contactus',
+      start: 'top 75%',
+      toggleActions: 'play none none none',
+    },
+  });
 
-	imgElement.addEventListener('animationend', () => {
-		iconElement.style.opacity = '1';
-		iconElement.style.transform = 'scale(1)'
-	});
+  // Анимация контейнера
+  tl.fromTo(
+    imgElement,
+    { width: '60px', height: '60px', boxShadow: '10px 10px 10px #cccccc inset, -10px -10px 10px #ffffff inset' },
+    {
+      width: '100%',
+      height: '200px',
+      background: '#fafafa',
+      boxShadow: '0px 20px 40px #cccccc, 2px 2px 2px #ffffff inset',
+      duration: 2,
+      ease: 'power2.out',
+    }
+  );
+
+  // Появление иконки (message.svg) на 80% анимации контейнера
+  tl.to(iconElement, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }, '-=0.4'); // Отступ назад на 0.4 сек
 });
 </script>
 

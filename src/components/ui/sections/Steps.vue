@@ -12,51 +12,56 @@
 import SectionTitle from '../title/SectionTitle.vue';
 import { onMounted, computed } from 'vue';
 import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const isMobile = computed(() => window.innerWidth < 550);
 
 onMounted(() => {
-  const container = document.querySelector('.steps__container');
   const stepsImage = document.querySelector('.steps__container-steps');
   const overlay = document.querySelector('.steps__overlay');
-  const observerOptions = isMobile.value
-    ? { threshold: [0.1] } 
-    : { threshold: [0.5] };
 
-  const observer = new IntersectionObserver((entries) => {
-    const [entry] = entries;
-    if (entry.isIntersecting) {
-      if (isMobile.value) {
-        // Анимация для мобильной версии
-        gsap.to(stepsImage, {
-          opacity: 1,
-          duration: 1,
-          ease: 'power2.out',
-        });
-      } else {
-        // Анимация для десктопной версии
-        gsap.to(stepsImage, {
-          opacity: 1,
-          duration: 1,
-          onComplete: () => {
+  if (isMobile.value) {
+    gsap.fromTo(
+      stepsImage,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.steps__container',
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
+  } else {
+    gsap.fromTo(
+      stepsImage,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.steps__container',
+          start: 'top 30%',
+          toggleActions: 'play none none none',
+          onEnter: () => {
             gsap.to(overlay, {
               width: 0,
               duration: 2,
               ease: 'power2.inOut',
-              transformOrigin: 'right center',
             });
           },
-        });
+        },
       }
-      observer.disconnect(); // Отключить наблюдатель после активации анимации
-    }
-  }, observerOptions);
-
-  if (container) observer.observe(container);
+    );
+  }
 });
 </script>
-
-
 
 <style lang="scss" scoped>
 .steps {
@@ -96,7 +101,7 @@ onMounted(() => {
 		display: block;
 		position: absolute;
 		top: -10px;
-		right: 0; 
+		right: 8px; 
 		width: 100%;
 		max-width: 1185px;
 		height: 100%;

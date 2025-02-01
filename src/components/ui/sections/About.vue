@@ -1,46 +1,31 @@
 <template>
   <SectionTitle title="Почему мы?" />
   <div class="about-list" ref="aboutList">
-    <div
-      v-for="(item, index) in aboutItems"
-      :key="index"
-      class="about-item"
-      :class="{ 'animate-item': animatedIndexes.includes(index) }"
-      :style="{ animationDelay: `${index * 0.1}s` }"
-    >
+    <div v-for="(item, index) in aboutItems" :key="index" class="about-item">
       <div class="about-item_title-container">
         <div class="about-item_title-before"></div>
-        <h3
-          class="about-item_title"
-          :class="{ 'animate-title': animatedIndexes.includes(index) }"
-        >
+        <h3 class="about-item_title">
           <div class="about-item_title-after"></div>
           {{ item.title }}
         </h3>
       </div>
-      <p
-        class="about-item_text"
-        :class="{ 'animate-text': animatedIndexes.includes(index) }"
-      >
-        {{ item.text }}
-      </p>
+      <p class="about-item_text">{{ item.text }}</p>
     </div>
   </div>
-  <div 
-    class="about-text-container"
-    ref="aboutTextContainer"
-    :class="{ 'animate-container': textContainerAnimated }"
-  >
+  <div class="about-text-container" ref="aboutTextContainer">
     <p class="about-text">
       Мы создаём сайты, которые работают на ваш бизнес. Наша команда сочетает креативность, техническую экспертизу и индивидуальный подход, чтобы каждый проект стал мощным инструментом для роста.
     </p>
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from "vue";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SectionTitle from "../title/SectionTitle.vue";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const aboutItems = [
   {
@@ -58,47 +43,74 @@ const aboutItems = [
 ];
 
 const aboutList = ref(null);
-const animatedIndexes = ref([]);
-const textContainerAnimated = ref(false);
 const aboutTextContainer = ref(null);
 
 onMounted(() => {
-  const listObserver = new IntersectionObserver(
-    (entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting) {
-        aboutItems.forEach((_, index) => {
-          setTimeout(() => {
-            animatedIndexes.value.push(index);
-          }, index * 500);
-        });
-        listObserver.disconnect();
-      }
-    },
-    { threshold: 0.4 }
-  );
-
   if (aboutList.value) {
-    listObserver.observe(aboutList.value);
+    const items = aboutList.value.children;
+
+    gsap.fromTo(
+      items,
+      { opacity: 0, x: -30 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.6,
+        stagger: 0.2,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: aboutList.value,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+        onComplete: () => {
+          gsap.fromTo(
+            aboutList.value.querySelectorAll(".about-item_title"),
+            { opacity: 0, x: -10 },
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.1,
+              stagger: 0.2,
+              ease: "power2.out",
+            }
+          );
+
+          gsap.fromTo(
+            aboutList.value.querySelectorAll(".about-item_text"),
+            { opacity: 0 },
+            {
+              opacity: 1,
+              duration: 0.1,
+              stagger: 0.2,
+              ease: "power2.out",
+              delay: 0.2,
+            }
+          );
+        },
+      }
+    );
   }
 
-  const textObserver = new IntersectionObserver(
-    (entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting) {
-        textContainerAnimated.value = true;
-        textObserver.disconnect();
-      }
-    },
-    { threshold: 0.8 }
-  );
-
   if (aboutTextContainer.value) {
-    textObserver.observe(aboutTextContainer.value);
+    gsap.fromTo(
+      aboutTextContainer.value,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: aboutTextContainer.value,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    );
   }
 });
 </script>
-
 
 <style lang="scss" scoped>
 .about {

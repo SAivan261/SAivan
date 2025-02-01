@@ -60,72 +60,51 @@ import { onMounted, reactive } from 'vue';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const blocks = reactive([
-	{
-		visible: false,
-		text: 'Типографика и колористика в стиле вашего бренда',
-	},
-	{
-		visible: false,
-		text: 'Быстрая работа и стабильность сайта',
-	},
-	{
-		visible: false,
-		text: 'Удобство и красота на любых устройствах',
-	},
+  { visible: false, text: 'Типографика и колористика в стиле вашего бренда' },
+  { visible: false, text: 'Быстрая работа и стабильность сайта' },
+  { visible: false, text: 'Удобство и красота на любых устройствах' },
 ]);
 
-const animations = [
-    {
-      selector: '.work-content__img-code',
-      from: { right: '10%', top: '10%' },
-      to: { right: '18%', top: '16%' },
-      start: 'top 70%',
-      end: 'center 60%',
-      duration: 4,
-    },
-    {
-      selector: '.work-content__img-mobile',
-      from: { bottom: '2%', left: '14%' },
-      to: { bottom: '8%', left: '20%' },
-      start: 'top center',
-      end: 'center 60%',
-      duration: 4,
-    },
-    {
-      selector: '.work-content__img-text',
-      from: { left: '10%', top: '9%' },
-      to: { left: '15%', top: '14%' }, 
-      start: 'top 70%',
-      end: 'center 60%',
-      duration: 4,
-    },
-  ];
-
 const toggleShow = (index) => {
-	blocks[index].visible = !blocks[index].visible;
+  blocks[index].visible = !blocks[index].visible;
 };
 
-const animateVisibility = () => {
-	gsap.to(blocks, {
-		visible: true,
-		stagger: 0.3,
-		duration: 0,
-		onUpdate: () => {
-			blocks.forEach((block, index) => {
-				block.visible = blocks[index].visible;
-			});
-		},
-	});
-};
+const animations = [
+  {
+    selector: '.work-content__img-code',
+    from: { right: '10%', top: '10%', opacity: 0 },
+    to: { right: '18%', top: '16%', opacity: 1 },
+    start: 'top 70%',
+    end: 'center 60%',
+    duration: 4,
+  },
+  {
+    selector: '.work-content__img-mobile',
+    from: { bottom: '2%', left: '14%', opacity: 0 },
+    to: { bottom: '8%', left: '20%', opacity: 1 },
+    start: 'top center',
+    end: 'center 60%',
+    duration: 4,
+  },
+  {
+    selector: '.work-content__img-text',
+    from: { left: '10%', top: '9%', opacity: 0 },
+    to: { left: '15%', top: '14%', opacity: 1 },
+    start: 'top 70%',
+    end: 'center 60%',
+    duration: 4,
+  },
+];
 
-gsap.registerPlugin(ScrollTrigger);
 onMounted(() => {
   animations.forEach(({ selector, from, to, start, end, duration }) => {
-    gsap.to(selector, {
+    gsap.fromTo(selector, from, {
       ...to,
       duration,
-      ease: 'none',
+      ease: 'power2.out',
       scrollTrigger: {
         trigger: '.work-content',
         start,
@@ -135,23 +114,29 @@ onMounted(() => {
     });
   });
 
-	const observer = new IntersectionObserver(
-		(entries) => {
-			const [entry] = entries;
-			if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
-				animateVisibility();
-				observer.disconnect();
-			}
-		},
-		{ threshold: [0.8] }
-	);
-
-	const workContent = document.querySelector('.work-content');
-	if (workContent) {
-		observer.observe(workContent);
-	}
+  // Анимация появления блоков при прокрутке (замена IntersectionObserver)
+  gsap.fromTo(
+    '.work__additional',
+    { opacity: 0, y: 20 },
+    {
+      opacity: 1,
+      y: 0,
+      stagger: 0.3,
+      duration: 1.2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.work-content',
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+        onEnter: () => {
+          blocks.forEach((block) => (block.visible = true));
+        },
+      },
+    }
+  );
 });
 </script>
+
 
 <style lang="scss" scoped>
 .work {
