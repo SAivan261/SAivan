@@ -255,18 +255,18 @@ onMounted(() => {
 			height: auto;
 
 			&-title{
-				font-size: 16px;
+				font-size: 20px;
 				line-height: 35px;
 				
 				& span{
-					font-size: 20px;
+					font-size: 24px;
 					line-height: 36px;
 				}
 			}
 
 			&-text{
-				font-size: 14px;
-				line-height: 20px;
+				font-size: 13px;
+				line-height: 18px;
 			}
 		}
 	}

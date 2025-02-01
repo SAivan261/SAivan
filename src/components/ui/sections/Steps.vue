@@ -20,8 +20,8 @@ onMounted(() => {
   const stepsImage = document.querySelector('.steps__container-steps');
   const overlay = document.querySelector('.steps__overlay');
   const observerOptions = isMobile.value
-    ? { threshold: [0.1] } // 10% для мобильной версии
-    : { threshold: [0.5] }; // 50% для десктопной версии
+    ? { threshold: [0.1] } 
+    : { threshold: [0.5] };
 
   const observer = new IntersectionObserver((entries) => {
     const [entry] = entries;
@@ -106,7 +106,7 @@ onMounted(() => {
 	}
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 550px){
 	.steps{
 		&__container {
 			&-arrow {

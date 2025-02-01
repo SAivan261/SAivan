@@ -545,17 +545,21 @@ onMounted(() => {
 
 @media screen and (max-width: 450px) {
   .promo__content-title {
-    font-size: clamp(24px, 6vw, 48px);
+    font-size: clamp(24px, 7.5vw, 48px);
 		line-height: 2;
   }
+
+	.promo__content-title_additional {
+		padding: 0px 22px 8px;
+	}
 
 	.promo__content-title_container{
 		padding: 0 12px 12px 12px;
 	}
 
 	.promo__content-text[data-v-5bf7021c] {
-		font-size: 14px;
-		line-height: 20px;
+		font-size: 13px;
+		line-height: 18px;
 	}
 
 	.promo__content-calc_title {
@@ -586,6 +590,10 @@ onMounted(() => {
 
 	.promo__content-calc_item{
 		max-width: 100%;
+	}
+
+	.page__button{
+		width: 100%;
 	}
 }
 </style>
