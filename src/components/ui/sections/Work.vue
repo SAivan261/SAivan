@@ -92,7 +92,7 @@ const animations = [
   {
     selector: '.work-content__img-text',
     from: { left: '10%', top: '9%'},
-    to: { left: '15%', top: '14%'},
+    to: { left: '15%', top: '14%' },
     start: 'top 70%',
     end: 'center 60%',
     duration: 4,

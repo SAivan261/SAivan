@@ -49,47 +49,50 @@ onMounted(() => {
   if (aboutList.value) {
     const items = aboutList.value.children;
 
-    gsap.fromTo(
-      items,
-      { opacity: 0, x: -30 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: "power2.out",
+    gsap.utils.toArray(items).forEach((item, index) => {
+      const title = item.querySelector(".about-item_title");
+      const text = item.querySelector(".about-item_text");
+
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: aboutList.value,
-          start: "top 80%",
+          trigger: item,
+          start: "top 70%", // Запуск анимации, когда 30% блока в области видимости
           toggleActions: "play none none none",
         },
-        onComplete: () => {
-          gsap.fromTo(
-            aboutList.value.querySelectorAll(".about-item_title"),
-            { opacity: 0, x: -10 },
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.1,
-              stagger: 0.2,
-              ease: "power2.out",
-            }
-          );
+      });
 
-          gsap.fromTo(
-            aboutList.value.querySelectorAll(".about-item_text"),
-            { opacity: 0 },
-            {
-              opacity: 1,
-              duration: 0.1,
-              stagger: 0.2,
-              ease: "power2.out",
-              delay: 0.2,
-            }
-          );
-        },
-      }
-    );
+      tl.fromTo(
+        item,
+        { opacity: 0, x: -30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        }
+      )
+        .fromTo(
+          title,
+          { opacity: 0, x: -10 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          "-=0.3" // Заголовок начинает появляться во время появления следующего контейнера
+        )
+        .fromTo(
+          text,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.4,
+            ease: "power2.out",
+          },
+          "-=0.2" // Текст появляется во время окончания заголовка
+        );
+    });
   }
 
   if (aboutTextContainer.value) {

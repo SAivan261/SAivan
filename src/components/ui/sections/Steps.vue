@@ -22,45 +22,43 @@ onMounted(() => {
   const stepsImage = document.querySelector('.steps__container-steps');
   const overlay = document.querySelector('.steps__overlay');
 
-  if (isMobile.value) {
-    gsap.fromTo(
-      stepsImage,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.steps__container',
-          start: 'top 90%',
-          toggleActions: 'play none none none',
-        },
-      }
-    );
-  } else {
-    gsap.fromTo(
-      stepsImage,
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '.steps__container',
-          start: 'top 30%',
-          toggleActions: 'play none none none',
-          onEnter: () => {
-            gsap.to(overlay, {
-              width: 0,
-              duration: 2,
-              ease: 'power2.inOut',
-            });
-          },
-        },
-      }
-    );
+  const triggerSettings = {
+    start: 'top bottom', // Анимация начинается, когда верх элемента касается низа экрана
+    toggleActions: 'play none none none', 
+    markers: false // Включите true для отладки
+  };
+
+  // Анимация появления изображения
+  gsap.fromTo(
+    stepsImage,
+    { opacity: 0 },
+    {
+      opacity: 1,
+      duration: 1,
+			delay: 2,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.steps__container',
+        ...triggerSettings
+      },
+    }
+  );
+
+  // Анимация исчезновения overlay
+  if (!isMobile.value) {
+    gsap.to(overlay, {
+      width: 0,
+      duration: 2,
+			delay: 2,
+      ease: 'power2.inOut',
+      scrollTrigger: {
+        trigger: '.steps__container',
+        ...triggerSettings
+      },
+    });
   }
 });
+
 </script>
 
 <style lang="scss" scoped>
