@@ -48,6 +48,7 @@ onMounted(() => {
       scrollTrigger: {
         trigger: '.contactus',
         start: 'top 80%',
+				delay: 2,
         toggleActions: 'play none none none',
       },
     }

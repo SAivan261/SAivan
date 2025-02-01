@@ -187,8 +187,6 @@ onMounted(() => {
 		padding: 66px 12px 12px 12px;
 		border-radius: 10px;
 		flex: 1 1 0px;
-		opacity: 0;
-		transform: translateX(-20px);
 		transition: all 0.5s ease-in-out;
 
 		&.animate-item {
@@ -221,8 +219,6 @@ onMounted(() => {
 			color: $color-text;
 			font-size: 24px;
 			line-height: 30px;
-			opacity: 0;
-			transform: translateX(-10px);
 			transition: all 0.4s ease-in-out;
 			transition-delay: 0.2s;
 
@@ -265,7 +261,6 @@ onMounted(() => {
 		&_text {
 			font-size: 16px;
 			line-height: 27px;
-			opacity: 0;
 			transition: opacity 0.4s ease-in-out;
 			transition-delay: 0.4s;
 
