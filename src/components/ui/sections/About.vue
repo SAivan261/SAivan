@@ -46,54 +46,50 @@ const aboutList = ref(null);
 const aboutTextContainer = ref(null);
 
 onMounted(() => {
+  if (window.innerWidth < 450) {
+
+    const items = document.querySelectorAll(".about-item, .about-text-container, .about-item_title, .about-item_text");
+    items.forEach((item) => {
+      item.style.opacity = "1";
+      item.style.transform = "none";
+    });
+    return;
+  }
+
+  // Если ширина больше 450px, включаем анимацию
   if (aboutList.value) {
-    const items = aboutList.value.children;
+  const items = gsap.utils.toArray(aboutList.value.children);
 
-    gsap.utils.toArray(items).forEach((item, index) => {
-      const title = item.querySelector(".about-item_title");
-      const text = item.querySelector(".about-item_text");
+  items.forEach((item, index) => {
+    const title = item.querySelector(".about-item_title");
+    const text = item.querySelector(".about-item_text");
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: item,
-          start: "top 70%", // Запуск анимации, когда 30% блока в области видимости
-          toggleActions: "play none none none",
-        },
-      });
-
-      tl.fromTo(
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: item,
+        start: "top 70%",
+        toggleActions: "play none none none",
+      },
+    })
+      .fromTo(
         item,
         { opacity: 0, x: -30 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.6,
-          ease: "power2.out",
-        }
+        { opacity: 1, x: 0, duration: 0.6, ease: "power2.out", delay: index * 0.2 } // Задержка 0.2s между элементами
       )
-        .fromTo(
-          title,
-          { opacity: 0, x: -10 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          "-=0.3" // Заголовок начинает появляться во время появления следующего контейнера
-        )
-        .fromTo(
-          text,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          "-=0.2" // Текст появляется во время окончания заголовка
-        );
-    });
-  }
+      .fromTo(
+        title,
+        { opacity: 0, x: -10 },
+        { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" },
+        "-=0.3"
+      )
+      .fromTo(
+        text,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: "power2.out" },
+        "-=0.2"
+      );
+  });
+}
 
   if (aboutTextContainer.value) {
     gsap.fromTo(
@@ -102,7 +98,7 @@ onMounted(() => {
       {
         opacity: 1,
         y: 0,
-        duration: 0.1,
+        duration: 0.6,
         ease: "power2.out",
         scrollTrigger: {
           trigger: aboutTextContainer.value,

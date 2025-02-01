@@ -129,7 +129,9 @@ onMounted(() => {
         start: 'top 85%',
         toggleActions: 'play none none none',
         onEnter: () => {
-          blocks.forEach((block) => (block.visible = true));
+          if (window.innerWidth >= 450) {
+            blocks.forEach((block) => (block.visible = true));
+          }
         },
       },
     }
