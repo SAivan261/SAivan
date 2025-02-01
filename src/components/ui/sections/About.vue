@@ -338,19 +338,25 @@ onMounted(() => {
 }
 
 @media screen and (max-width: 450px){
+	.about-item_title-container, .about-item{
+		opacity: 1;
+	}
 	.about-item_title {
 		font-size: 16px;
 		line-height: 20px;
+		opacity: 1;
 	}
 
 	.about-item_text{
 		font-size: 14px;
 		line-height: 20px;
+		opacity: 1;
 	}
 
 	.about-text {
 		font-size: 14px;
 		line-height: 20px;
+		opacity: 1;
 	}
 }
 </style>
