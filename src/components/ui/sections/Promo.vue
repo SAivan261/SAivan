@@ -545,7 +545,7 @@ onMounted(() => {
 
 @media screen and (max-width: 450px) {
 	.promo__content-wrapper{
-		max-height: auto;
+		max-height: none;
 	}
 
   .promo__content-title {
