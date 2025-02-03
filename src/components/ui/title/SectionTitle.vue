@@ -103,6 +103,8 @@ onMounted(() => {
 @media screen and (max-width: 450px){
   .section__title {
     font-size: 24px;
+    height: auto;
+    margin-bottom: 24px;
   }
 }
 </style>

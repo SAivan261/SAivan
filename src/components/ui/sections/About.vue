@@ -349,5 +349,10 @@ onMounted(() => {
 		line-height: 20px;
 		opacity: 1;
 	}
+
+	.about-item_title-after{
+		top: 0;
+    right: -20px;
+	}
 }
 </style>

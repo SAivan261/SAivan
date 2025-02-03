@@ -544,6 +544,10 @@ onMounted(() => {
 }
 
 @media screen and (max-width: 450px) {
+	.promo__content-wrapper{
+		max-height: auto;
+	}
+
   .promo__content-title {
     font-size: clamp(24px, 7.5vw, 48px);
 		line-height: 2;
