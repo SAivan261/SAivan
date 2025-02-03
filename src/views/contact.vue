@@ -57,11 +57,11 @@
 				<h2 class="contact__info-title">Контактная информация</h2>
 				<div class="contact__info-content">
 					<phone_ico :size="iconSize" />
-					<p class="contact__info-text">8(906)545-66-91</p>
+					<p class="contact__info-text">+7 (906)545-66-91</p>
 				</div>
 				<div class="contact__info-content">
 					<telegram_ico :size="iconSize" />
-					<p class="contact__info-text">8(906)545-66-91</p>
+					<p class="contact__info-text">+7 (906)545-66-91</p>
 				</div>
 				<div class="contact__info-content">
 					<email_ico :size="iconSize" />

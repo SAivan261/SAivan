@@ -15,11 +15,11 @@
 				</li>
 				<li class="footer__item">
 					<Phone_ico/>
-					<a href="" class="footer__item-link">8(906)545-66-91</a>
+					<a href="" class="footer__item-link">+7 (906)545-66-91</a>
 				</li>
 				<li class="footer__item">
 					<Telegram_ico/>
-					<a href="" class="footer__item-link">8(906)545-66-91</a>
+					<a href="" class="footer__item-link">+7 (906)545-66-91</a>
 				</li>
 				<li class="footer__item">
 					<Email_ico/>

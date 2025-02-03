@@ -1,5 +1,5 @@
 <template>
-  <h2 class="section__title" ref="titleElement">
+  <h2 v-if='!isMobile' class="section__title" ref="titleElement">
     <span
       v-for="(letter, index) in animatedTitle"
       :key="index"
@@ -10,10 +10,12 @@
       {{ letter === ' ' ? '\u00A0' : letter }}
     </span>
   </h2>
+
+  <h2 v-else class="section__title">{{ title }}</h2>
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps, toRefs } from "vue";
+import { ref, onMounted, defineProps, toRefs, computed } from "vue";
 
 const props = defineProps({
   title: {
@@ -23,6 +25,15 @@ const props = defineProps({
 });
 
 const { title } = toRefs(props);
+
+const isMobile = computed(() => {
+	if(window.innerWidth < 450){
+		return true
+	} else{
+		return false
+	}
+})
+
 const animatedTitle = ref([]);
 const titleElement = ref(null);
 
@@ -91,7 +102,7 @@ onMounted(() => {
 
 @media screen and (max-width: 450px){
   .section__title {
-    font-size: 19px;
+    font-size: 24px;
   }
 }
 </style>
