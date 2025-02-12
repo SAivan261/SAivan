@@ -239,7 +239,9 @@ import phone_ico from '@/components/icons/phone_ico.vue'
 import Button from '@/components/ui/Button.vue'
 import { onMounted, computed, ref } from 'vue';
 import gsap from 'gsap';
+import { useMessage } from 'naive-ui';
 
+const messageInfo = useMessage();
 const formData = ref({
   name: '',
   phone: '',
@@ -350,14 +352,14 @@ const clearForm = () => {
 
 // Функция для проверки пустых значений
 const hasEmptyFields = () => {
-  const { name, phone, comment } = formData.value;
-  return !name || !phone || !comment;
+  const { name, phone } = formData.value;
+  return !name || !phone;
 };
 
 const sendToTelegram = async () => {
   // Проверка на пустые поля
   if (hasEmptyFields()) {
-    alert('Пожалуйста, заполните все обязательные поля.');
+    messageInfo.warning('Пожалуйста, заполните все обязательные поля.');
     return;
   }
 
@@ -405,14 +407,14 @@ const sendToTelegram = async () => {
     });
 
     if (response.ok) {
-
+			messageInfo.success('Данные успешно отправлены')
       clearForm(); // Очищаем форму после успешной отправки
     } else {
-      alert('Ошибка при отправке данных.');
+      messageInfo.error('Ошибка при отправке данных.');
     }
   } catch (error) {
     console.error('Ошибка:', error);
-    alert('Произошла ошибка при отправке данных.');
+    messageInfo.error('Произошла ошибка при отправке данных.');
   }
 };
 

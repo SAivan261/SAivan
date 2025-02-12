@@ -1,11 +1,13 @@
 <template>
 	<n-config-provider :theme-overrides="themeOverrides">
 		<n-modal-provider>
-			<div class='content'>
-				<Header/>
-				<RouterView />
-				<Footer class='footer'/>
-			</div>
+			<n-message-provider>
+				<div class='content'>
+					<Header/>
+					<RouterView />
+					<Footer class='footer'/>
+				</div>
+			</n-message-provider>
 		</n-modal-provider>
 	</n-config-provider>
 </template>
