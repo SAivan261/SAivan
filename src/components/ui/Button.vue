@@ -16,6 +16,9 @@
 	color: $color-white;
 	padding: 12px 24px;
 	transition: all 0.3s;
+
+	font-size: 16px;
+	font-weight: 700;
 }
 
 .page__button:hover {

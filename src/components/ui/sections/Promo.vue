@@ -108,15 +108,13 @@ const isTablet = computed(() => {
 })
 
 const options = [
-  { label: 'Лендинг (одностраничный сайт)', value: 'landing', price: 29900 },
+  { label: 'Лендинг', value: 'landing', price: 29900 },
   { label: 'Корпоративный сайт', value: 'corporate', price: 49900 },
   { label: 'Интернет-магазин', value: 'ecommerce', price: 79900 },
-  { label: 'Многофункциональный портал', value: 'portal', price: 49900 },
   { label: 'Сайт-визитка', value: 'business_card', price: 19900 },
   { label: 'Блог', value: 'blog', price: 24900 },
   { label: 'Новостной портал', value: 'news', price: 39900 },
   { label: 'Образовательная платформа', value: 'education', price: 69900 },
-  { label: 'Форум', value: 'forum', price: 34900 },
   { label: 'Сайт для мероприятий', value: 'event', price: 29900 },
   { label: 'Каталог товаров', value: 'catalog', price: 45900 },
 ];
