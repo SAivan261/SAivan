@@ -355,7 +355,7 @@ const hasEmptyFields = () => {
 const sendToTelegram = async () => {
   // Проверка на пустые поля
   if (hasEmptyFields()) {
-    messageInfo.warning('Пожалуйста, заполните все обязательные поля.');
+    messageInfo.warning('Пожалуйста, заполните имя и номер телефона.');
     return;
   }
 
