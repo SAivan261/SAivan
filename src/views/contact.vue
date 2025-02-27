@@ -63,10 +63,6 @@
 					<telegram_ico :size="iconSize" />
 					<p class="contact__info-text">+7 (906)545-66-91</p>
 				</div>
-				<div class="contact__info-content">
-					<email_ico :size="iconSize" />
-					<p class="contact__info-text">support@help.ru</p>
-				</div>
 			</div>
 		</div>
 	</div>

@@ -21,10 +21,6 @@
 					<Telegram_ico/>
 					<a href="" class="footer__item-link">+7 (906)545-66-91</a>
 				</li>
-				<li class="footer__item">
-					<Email_ico/>
-					<a href="" class="footer__item-link">support@help.ru</a>
-				</li>
 			</ul>
 		</div>
 	</footer>
